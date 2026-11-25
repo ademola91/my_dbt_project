@@ -1,0 +1,58 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: Cleaned customer records from raw.customers
+    columns:
+      - name: customer_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_riders
+    description: Cleaned rider roster and fleet assignments from raw.riders
+    columns:
+      - name: rider_id
+        data_tests:
+          - unique
+          - not_null
+      - name: fleet
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['internal', 'partner', 'unknown']
+              config:
+                severity: warn
+
+  - name: stg_deliveries
+    description: Standardized delivery transactions from raw.deliveries
+    columns:
+      - name: delivery_id
+        data_tests:
+          - not_null
+      - name: customer_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_customers')
+                field: customer_id
+              config:
+                severity: warn
+      - name: rider_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_riders')
+                field: rider_id
+              config:
+                severity: warn
+
+  - name: stg_support_tickets_weekly
+    description: Weekly aggregated support ticket counts exported from MongoDB
+    columns:
+      - name: ticket_week
+        data_tests:
+          - not_null
+      - name: category
+        data_tests:
+          - not_null

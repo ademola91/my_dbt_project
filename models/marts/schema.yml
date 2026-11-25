@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: mart_fleet_reconciliation
+    description: Weekly reconciliation of partner vs. internal fleet deliveries, fees, extreme distance anomalies, and support ticket volume
+    columns:
+      - name: delivery_week
+        data_tests:
+          - not_null
+      - name: fleet_type
+        data_tests:
+          - not_null
+      - name: pickup_city
+        data_tests:
+          - not_null
+      - name: total_deliveries
+        data_tests:
+          - not_null
