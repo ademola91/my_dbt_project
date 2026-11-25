@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: jara_raw
+    schema: raw
+    tables:
+      - name: customers
+      - name: riders
+      - name: deliveries
+      - name: support_tickets_weekly
