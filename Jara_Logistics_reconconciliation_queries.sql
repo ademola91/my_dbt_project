@@ -13,7 +13,7 @@ from dbt_ademola.mart_fleet_reconciliation
 group by 1, 2
 order by 1, 2;
 
--- Check distinct fleet values in stg_riders
+--Query 2 Check distinct fleet values in stg_riders
 select fleet, count(*)
 from dbt_ademola.stg_riders
 group by 1;
@@ -79,7 +79,7 @@ where not d.is_duplicate
 group by 1, 2
 order by 1;
 
--- Q7: Reverse-engineer NGN 127,983,042 arithmetic on November partner deliveries
+-- Q7: Reverse-engineer NGN 127,983,042 arithmetic on November partner deliveries( key part of the Capstone)
 select
     count(*) as nov_partner_rows,
     count(*) filter (where not is_duplicate) as deduped_rows,
@@ -94,6 +94,7 @@ left join dbt_ademola.stg_riders r on d.rider_id = r.rider_id
 where date_trunc('month', d.created_at) = '2025-11-01'
   and coalesce(r.fleet, d.raw_delivery_fleet, 'unknown') = 'partner';
 
+-- To do final checks
 -- 1. Check exact column names in stg_deliveries
 select column_name, data_type
 from information_schema.columns
